@@ -1,8 +1,15 @@
 package com.finfree;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.Objects;
 
+@Entity
 public class Expense {
+
+    @Id
+    private Integer id;
     private String date;
     private Double amount;
     private String category;
@@ -11,11 +18,20 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(String date, Double amount, String category, String description) {
+    public Expense(Integer id, String date, Double amount, String category, String description) {
+        this.id = id;
         this.date = date;
         this.amount = amount;
         this.category = category;
         this.description = description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -61,4 +77,5 @@ public class Expense {
     public int hashCode() {
         return Objects.hash(date, amount, category, description);
     }
+
 }
