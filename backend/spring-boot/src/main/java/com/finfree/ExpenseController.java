@@ -8,6 +8,17 @@ import java.util.List;
 @RequestMapping("api/v1/expenses")
 public class ExpenseController {
 
+    private final ExpenseService expenseService;
+
+    public ExpenseController(ExpenseService expenseService) {
+        this.expenseService = expenseService;
+    }
+
+    @GetMapping
+    public List<Expense> getExpenses() {
+        return expenseService.getAllExpenses();
+    }
+
     @PostMapping
     public Expense addExpense(
             @RequestParam Integer id,
