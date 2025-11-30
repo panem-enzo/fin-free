@@ -1,6 +1,7 @@
 package com.finfree;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public void insertExpense(Expense expense) {
-        expenseRepository.save(expense);
+    public Expense insertExpense(Expense expense) {
+        return expenseRepository.save(expense);
     }
 
     public Expense getExpenseById(Integer id) {

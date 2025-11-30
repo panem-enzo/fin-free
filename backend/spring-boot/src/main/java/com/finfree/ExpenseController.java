@@ -6,7 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/expenses")
-@CrossOrigin
+@CrossOrigin("*")
 public class ExpenseController {
 
     private final ExpenseService expenseService;
@@ -16,8 +16,8 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public void addNewExpense(Expense expense) {
-        expenseService.insertExpense(expense);
+    public Expense addNewExpense(@RequestBody Expense expense) {
+        return expenseService.insertExpense(expense);
     }
 
     @GetMapping
