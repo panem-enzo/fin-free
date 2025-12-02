@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import viteLogo from "/vite.svg";
+import { getAllExpenses, insertExpense } from "../src/services/api";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [amount, setAmount] = useState(0.0);
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="flex justify-content gap-[2rem]">
+        <div>
+          <a href="https://vite.dev" target="_blank">
+            <img src={viteLogo} className="logo" alt="Vite logo" />
+          </a>
+        </div>
+        <h1>FinFree: Smart Budget Tracking</h1>
+        <div className="">
+          <div>
+            <div>
+              <input
+                type="number"
+                placeholder="Amount ($)"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <button className="cursor-pointer rounded-md border-1 p-2"
+              onClick={() => insertExpense(amount, category, description)}
+            >
+              Add Expense
+            </button>
+          </div>
+        </div>
+        <button className="cursor-pointer rounded-md border-1 p-2" onClick={() => getAllExpenses()}>Get Expense List</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,1 +1,1 @@
-# FinFree: All-One-Personal Finance
+# FinFree: Smart Budget Tracker
