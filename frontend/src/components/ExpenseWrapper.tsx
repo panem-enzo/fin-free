@@ -27,11 +27,10 @@ export const ExpenseWrapper = () => {
       } catch (error) {
         console.error("Failed to fetch total:", error);
       }
-    }
+    };
 
     fetchExpenses();
     fetchTotal();
-    
   }, []);
 
   const addExpense = (expense: Expense) => {
@@ -40,11 +39,9 @@ export const ExpenseWrapper = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex gap-4">
-          <ExpenseForm addExpense={addExpense} />
-          <ExpenseReport expenseTotal={total}/>
-        </div>
+      <div className="grid grid-cols-5 gap-4">
+        <ExpenseForm addExpense={addExpense} />
+        <ExpenseReport expenseTotal={total} />
         <ExpenseTable expenses={expenses} />
       </div>
     </>

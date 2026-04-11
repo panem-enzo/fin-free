@@ -45,53 +45,53 @@ export const ExpenseForm = ({
   };
 
   return (
-    <form
-      className="flex flex-col items-center p-4 gap-2 w-120 shadow-sm rounded-2xl"
-      onSubmit={handleSubmit}
-    >
-      <h1 className="font-black text-xl text-teal-900">
-        FinFree <span className="font-normal">Smart Budget Tracking</span>
-      </h1>
-      <div className="inset-shadow-sm rounded-lg">
-        <input
-          className="p-1"
-          type="number"
-          placeholder="Amount ($)"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-      </div>
-      <div className="inset-shadow-sm rounded-lg">
-        <input
-          className="p-1"
-          type="text"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-      </div>
-      <div className="inset-shadow-sm rounded-lg">
-        <input
-          className="p-1"
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-      <button
-        type="submit"
-        className="flex cursor-pointer rounded-lg p-2 text-white bg-emerald-300 hover:bg-emerald-400"
+    <div className="col-span-3">
+      <form
+        className="flex flex-col items-center p-4 gap-2 w-120 shadow-sm rounded-2xl"
+        onSubmit={handleSubmit}
       >
-        Add Expense
-      </button>
-      <button
-        type="button"
-        className=" flex items-center gap-1 cursor-pointer rounded-lg bg-gray-100 hover:bg-red-400 hover:text-white p-2"
-        onClick={() => deleteAllExpenses()}
-      >
-        Clear All
-      </button>
-    </form>
+        <h1 className="text-xl text-teal-900">Add New Expense</h1>
+        <div className="inset-shadow-sm rounded-lg">
+          <input
+            className="p-1"
+            type="number"
+            placeholder="Amount ($)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </div>
+        <div className="inset-shadow-sm rounded-lg">
+          <input
+            className="p-1"
+            type="text"
+            placeholder="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </div>
+        <div className="inset-shadow-sm rounded-lg">
+          <input
+            className="p-1"
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className="flex cursor-pointer rounded-lg p-2 text-white bg-emerald-300 hover:bg-emerald-400"
+        >
+          Add Expense
+        </button>
+        <button
+          type="button"
+          className=" flex items-center gap-1 cursor-pointer rounded-lg bg-gray-100 hover:bg-red-400 hover:text-white p-2"
+          onClick={() => deleteAllExpenses()}
+        >
+          Clear All
+        </button>
+      </form>
+    </div>
   );
 };

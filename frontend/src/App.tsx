@@ -1,10 +1,12 @@
 import { ExpenseWrapper } from "./components/ExpenseWrapper";
+import { Sidebar } from "./components/Sidebar";
 
 function App() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-[100vh] cursor-default select-none">
+      <div className="grid grid-cols-2 gap-4 h-[100vh] cursor-default select-none">
+        <Sidebar/>
         <ExpenseWrapper/>
       </div>
     </>
