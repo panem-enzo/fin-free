@@ -47,7 +47,7 @@ export const ExpenseForm = ({
   return (
     <div className="col-span-3">
       <form
-        className="flex flex-col items-center p-4 gap-2 w-120 shadow-sm rounded-2xl"
+        className="flex flex-col items-center p-4 gap-2 shadow-sm rounded-2xl bg-white"
         onSubmit={handleSubmit}
       >
         <h1 className="text-xl text-teal-900">Add New Expense</h1>

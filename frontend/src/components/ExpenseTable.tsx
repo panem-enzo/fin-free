@@ -4,7 +4,7 @@ import { ExpenseItem } from "./ExpenseItem";
 export const ExpenseTable = ({ expenses }: { expenses: Expense[] }) => {
   return (
     <div className="col-span-3">
-      <table className="shadow-sm rounded-2xl">
+      <table className="shadow-sm rounded-2xl bg-white">
         <tbody className="flex flex-col p-4 gap-3">
           <tr className="flex rounded-md">
             <th className="w-15">Date</th>

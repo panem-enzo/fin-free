@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4 h-[100vh] cursor-default select-none">
+      <div className="grid grid-cols-6 h-[100vh] bg-stone-50 cursor-default select-none">
         <Sidebar/>
         <ExpenseWrapper/>
       </div>

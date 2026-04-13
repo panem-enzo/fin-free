@@ -5,6 +5,7 @@ import type { Expense } from "../types";
 import { fetchExpenseTotal, getAllExpenses } from "../services/api";
 import { ExpenseTable } from "./ExpenseTable";
 import { ExpenseReport } from "./ExpenseReport";
+import { OverviewItem } from "./OverviewItem";
 
 export const ExpenseWrapper = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -39,7 +40,20 @@ export const ExpenseWrapper = () => {
 
   return (
     <>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="col-span-5 grid grid-cols-5 grid-rows-3 p-4 gap-4">
+        <div className="col-span-5 grid grid-cols-5 gap-4">
+          <h1 className="col-span-5 font-bold text-3xl">Overview</h1>
+          {/* NOTE: Dollar amount is hard-coded for now */}
+          <div className="col-span-1">
+            <OverviewItem type="Current Balance" amount={1312.11} />
+          </div>
+          <div className="col-span-1">
+            <OverviewItem type="Income" amount={4765.32} />
+          </div>
+          <div className="col-span-1">
+            <OverviewItem type="Expenses" amount={3453.21} />
+          </div>
+        </div>
         <ExpenseForm addExpense={addExpense} />
         <ExpenseReport expenseTotal={total} />
         <ExpenseTable expenses={expenses} />
