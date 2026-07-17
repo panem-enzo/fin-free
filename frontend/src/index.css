@@ -21,4 +21,14 @@ input:focus {
 @theme {
   --inset-shadow-sm: inset 0 0 3px rgba(0, 0, 0, 0.25);
   --shadow-sm: 0 0 2px rgba(0, 0, 0, 0.25);
+
+  --color-primary: var(--color-emerald-600);
+  --color-primary-hover: var(--color-emerald-700);
+  --color-secondary: var(--color-stone-100);
+  --color-secondary-hover: var(--color-stone-200);
+  --color-danger: var(--color-red-500);
+  --color-danger-hover: var(--color-red-600);
+  --color-surface: var(--color-white);
+  --color-surface-muted: var(--color-stone-50);
+  --radius-card: 1rem;
 }

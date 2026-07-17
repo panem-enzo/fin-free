@@ -1,5 +1,6 @@
 package com.finfree.service;
 
+import com.finfree.exception.ExpenseNotFoundException;
 import com.finfree.model.Expense;
 import com.finfree.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class ExpenseService {
     }
 
     public Expense getExpenseById(Integer id) {
-        return expenseRepository.findById(id).orElseThrow(() -> new IllegalStateException(id + " not found"));
+        return expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id + " not found"));
     }
 
     public void removeAllExpenses() {
@@ -36,7 +37,7 @@ public class ExpenseService {
     }
 
     public void updateExpenseById(Integer id, Expense update) {
-        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new IllegalStateException(id + " not found"));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id + " not found"));
         expense.setDate(update.getDate());
         expense.setAmount(update.getAmount());
         expense.setCategory(update.getCategory());

@@ -2,6 +2,7 @@ package com.finfree.controller;
 
 import com.finfree.service.ExpenseService;
 import com.finfree.model.Expense;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public Expense addNewExpense(@RequestBody Expense expense) {
+    public Expense addNewExpense(@Valid @RequestBody Expense expense) {
         return expenseService.insertExpense(expense);
     }
 
@@ -38,7 +39,7 @@ public class ExpenseController {
     }
 
     @PutMapping("{id}")
-    public void updateExpenseById(@PathVariable Integer id, @RequestBody Expense expense) {
+    public void updateExpenseById(@PathVariable Integer id, @Valid @RequestBody Expense expense) {
         expenseService.updateExpenseById(id, expense);
     }
 
