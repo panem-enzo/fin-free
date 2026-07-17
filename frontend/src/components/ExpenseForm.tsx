@@ -1,22 +1,35 @@
 import { useState } from "react";
 import { insertExpense, deleteAllExpenses } from "../services/api.ts";
 import type { Expense } from "../types/index.ts";
+import { Button } from "./ui/Button.tsx";
+import { ConfirmDialog } from "./ui/ConfirmDialog.tsx";
+import { useToast } from "../context/useToast.ts";
+import {
+  validateExpense,
+  hasValidationErrors,
+  type ExpenseValidationErrors,
+} from "../utils/validateExpense.ts";
 
 export const ExpenseForm = ({
   addExpense,
+  clearExpenses,
 }: {
   addExpense: (expense: Expense) => void;
+  clearExpenses: () => void;
 }) => {
   const [amount, setAmount] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [errors, setErrors] = useState<ExpenseValidationErrors>({});
+  const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false);
+  const { showToast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const currentDate = new Date();
 
-    let expense: Expense = {
+    const expense: Expense = {
       id: 0,
       date: `${
         currentDate.getMonth() + 1
@@ -26,22 +39,38 @@ export const ExpenseForm = ({
       description: description,
     };
 
-    // API Call
-    const expenseFromDb = insertExpense(expense);
-    expense = {
-      id: expenseFromDb.id,
-      date: expenseFromDb.date,
-      amount: expenseFromDb.amount,
-      category: expenseFromDb.category,
-      description: expenseFromDb.description,
-    };
+    const validationErrors = validateExpense(expense);
+    setErrors(validationErrors);
+    if (hasValidationErrors(validationErrors)) {
+      return;
+    }
 
-    addExpense(expense);
+    try {
+      const expenseFromDb = await insertExpense(expense);
+      addExpense(expenseFromDb);
 
-    // Reset Values
-    setAmount("");
-    setCategory("");
-    setDescription("");
+      // Reset Values
+      setAmount("");
+      setCategory("");
+      setDescription("");
+      setErrors({});
+      showToast("Expense added", "success");
+    } catch (error) {
+      console.error("Failed to add expense:", error);
+      showToast("Failed to add expense", "error");
+    }
+  };
+
+  const handleClearAll = async () => {
+    setIsClearConfirmOpen(false);
+    try {
+      await deleteAllExpenses();
+      clearExpenses();
+      showToast("All expenses cleared", "success");
+    } catch (error) {
+      console.error("Failed to clear expenses:", error);
+      showToast("Failed to clear expenses", "error");
+    }
   };
 
   return (
@@ -51,47 +80,85 @@ export const ExpenseForm = ({
         onSubmit={handleSubmit}
       >
         <h1 className="text-xl text-teal-900">Add New Expense</h1>
-        <div className="inset-shadow-sm rounded-lg">
-          <input
-            className="p-1"
-            type="number"
-            placeholder="Amount ($)"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
+        <div className="w-full flex flex-col gap-1">
+          <label htmlFor="expense-amount">Amount ($)</label>
+          <div className="inset-shadow-sm rounded-lg">
+            <input
+              id="expense-amount"
+              className="p-1 w-full focus:ring-2 focus:ring-primary rounded-lg"
+              type="number"
+              placeholder="Amount ($)"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              aria-describedby={errors.amount ? "expense-amount-error" : undefined}
+              aria-invalid={errors.amount ? true : undefined}
+            />
+          </div>
+          {errors.amount && (
+            <p id="expense-amount-error" className="text-danger text-sm">
+              {errors.amount}
+            </p>
+          )}
         </div>
-        <div className="inset-shadow-sm rounded-lg">
-          <input
-            className="p-1"
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
+        <div className="w-full flex flex-col gap-1">
+          <label htmlFor="expense-category">Category</label>
+          <div className="inset-shadow-sm rounded-lg">
+            <input
+              id="expense-category"
+              className="p-1 w-full focus:ring-2 focus:ring-primary rounded-lg"
+              type="text"
+              placeholder="Category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              aria-describedby={errors.category ? "expense-category-error" : undefined}
+              aria-invalid={errors.category ? true : undefined}
+            />
+          </div>
+          {errors.category && (
+            <p id="expense-category-error" className="text-danger text-sm">
+              {errors.category}
+            </p>
+          )}
         </div>
-        <div className="inset-shadow-sm rounded-lg">
-          <input
-            className="p-1"
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+        <div className="w-full flex flex-col gap-1">
+          <label htmlFor="expense-description">Description</label>
+          <div className="inset-shadow-sm rounded-lg">
+            <input
+              id="expense-description"
+              className="p-1 w-full focus:ring-2 focus:ring-primary rounded-lg"
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              aria-describedby={errors.description ? "expense-description-error" : undefined}
+              aria-invalid={errors.description ? true : undefined}
+            />
+          </div>
+          {errors.description && (
+            <p id="expense-description-error" className="text-danger text-sm">
+              {errors.description}
+            </p>
+          )}
         </div>
-        <button
-          type="submit"
-          className="flex cursor-pointer rounded-lg p-2 text-white bg-emerald-300 hover:bg-emerald-400"
-        >
+        <Button type="submit" variant="primary">
           Add Expense
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className=" flex items-center gap-1 cursor-pointer rounded-lg bg-gray-100 hover:bg-red-400 hover:text-white p-2"
-          onClick={() => deleteAllExpenses()}
+          variant="secondary"
+          onClick={() => setIsClearConfirmOpen(true)}
         >
           Clear All
-        </button>
+        </Button>
       </form>
+      <ConfirmDialog
+        open={isClearConfirmOpen}
+        title="Clear all expenses?"
+        message="This will permanently delete every expense. This action cannot be undone."
+        confirmLabel="Clear All"
+        onConfirm={handleClearAll}
+        onCancel={() => setIsClearConfirmOpen(false)}
+      />
     </div>
   );
 };
